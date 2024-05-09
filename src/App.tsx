@@ -16,9 +16,11 @@ const ALL_PERSONS = gql`
 `;
 
 function App() {
+  /* useQuery se ejecuta cuando se hace el render*/
   const { data, loading, error } = useQuery(ALL_PERSONS);
+
   if (loading) return <p>loading...</p>;
-  if (error) return <p style="color: red">Error</p>;
+  if (error) return <p style={{ color: "red" }}>Error</p>;
   return <Persons data={data} />;
 }
 
