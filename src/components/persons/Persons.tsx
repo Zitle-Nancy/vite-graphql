@@ -1,5 +1,8 @@
 import { useSearchPerson } from "../../queries/searchPerson";
+import { CreatePersonForm } from "./form/CreatePerson";
 import { PersonDetail } from "./PersonDetail";
+
+//$name: String!, $street:String!, $city:String!, $phone:String
 
 interface AllPersons {
   name: string;
@@ -41,6 +44,7 @@ export const Persons = ({ data }: PersonProps) => {
           );
         })}
       </ul>
+      <CreatePersonForm />
     </>
   );
 };
