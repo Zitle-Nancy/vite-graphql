@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import "./App.css";
 import { Persons } from "./components";
 
-const ALL_PERSONS = gql`
+export const ALL_PERSONS = gql`
   query {
     allPersons {
       name
@@ -16,7 +16,7 @@ const ALL_PERSONS = gql`
 `;
 
 function App() {
-  /* useQuery se ejecuta cuando se hace el render*/
+  /* useQuery se ejecuta cuando se hace el render, es decir inmediatamente*/
   const { data, loading, error } = useQuery(ALL_PERSONS);
 
   if (loading) return <p>loading...</p>;
