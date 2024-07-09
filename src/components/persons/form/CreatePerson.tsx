@@ -1,5 +1,7 @@
 import { FormEvent, useState } from "react";
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
+
+import { ALL_PERSONS } from "../../../App";
 
 const CREATE_PERSON = gql`
   mutation createPerson(
@@ -21,8 +23,8 @@ const CREATE_PERSON = gql`
 `;
 
 // TODO: refactor this interface to global scope
-interface PersonPropertiesProps {
-  userName: string;
+interface PersonProperties {
+  name: string;
   phone: string;
   address: {
     city: string;
@@ -30,36 +32,45 @@ interface PersonPropertiesProps {
   };
 }
 
-export const CreatePersonForm = () => {
-  const personProperties: PersonPropertiesProps = {
-    userName: "",
-    phone: "",
-    address: {
-      city: "",
-      street: "",
-    },
-  };
+const initialPersonState = {
+  name: "",
+  phone: "",
+  address: {
+    city: "",
+    street: "",
+  },
+};
 
+export const CreatePersonForm = () => {
   const [newPerson, setNewPerson] =
-    useState<PersonPropertiesProps>(personProperties);
+    useState<PersonProperties>(initialPersonState);
+
+  // is an array because we say when want to call the useMutation()
+  const [createPerson] = useMutation(CREATE_PERSON, {
+    refetchQueries: [{ query: ALL_PERSONS }],
+  });
 
   const {
-    userName,
+    name,
     phone,
     address: { city, street },
   } = newPerson;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setNewPerson({
-      userName: "",
-      phone: "",
-      address: {
-        city: "",
-        street: "",
-      },
-    });
+    try {
+      await createPerson({
+        variables: {
+          ...newPerson,
+          ...newPerson.address,
+        },
+      });
+
+      setNewPerson(initialPersonState);
+    } catch (e) {
+      console.error("Error creating person", e);
+    }
   };
 
   return (
@@ -69,11 +80,12 @@ export const CreatePersonForm = () => {
         <label htmlFor="name">
           Name:
           <input
+            name="name"
             id="name"
             placeholder="Name"
-            value={userName}
+            value={name}
             onChange={({ target: { value } }) => {
-              setNewPerson({ ...newPerson, userName: value });
+              setNewPerson({ ...newPerson, name: value });
             }}
           />
         </label>
@@ -82,6 +94,7 @@ export const CreatePersonForm = () => {
           Phone:
           <input
             id="phone"
+            name="phone"
             placeholder="Phone"
             value={phone}
             onChange={({ target: { value } }) => {
@@ -90,9 +103,10 @@ export const CreatePersonForm = () => {
           />
         </label>
         <label htmlFor="street">
-          Street
+          Street:
           <input
             id="street"
+            name="street"
             placeholder="Street"
             value={street}
             onChange={({ target: { value } }) => {
@@ -107,6 +121,7 @@ export const CreatePersonForm = () => {
           City:
           <input
             id="city"
+            name="city"
             placeholder="City"
             value={city}
             onChange={({ target: { value } }) => {
@@ -120,7 +135,7 @@ export const CreatePersonForm = () => {
             }}
           />
         </label>
-        <button>Send</button>
+        <button>Add new person</button>
       </form>
     </div>
   );
