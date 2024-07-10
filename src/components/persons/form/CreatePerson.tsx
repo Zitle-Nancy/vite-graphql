@@ -1,38 +1,9 @@
 import { FormEvent, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
 
-import { ALL_PERSONS } from "../../../App";
+import { useNewPerson } from "../../../hooks/useNewPerson";
+import { Person } from "../Persons";
 
-const CREATE_PERSON = gql`
-  mutation createPerson(
-    $name: String!
-    $street: String!
-    $city: String!
-    $phone: String
-  ) {
-    addPerson(name: $name, phone: $phone, street: $street, city: $city) {
-      name
-      phone
-      address {
-        city
-        street
-      }
-      id
-    }
-  }
-`;
-
-// TODO: refactor this interface to global scope
-interface PersonProperties {
-  name: string;
-  phone: string;
-  address: {
-    city: string;
-    street: string;
-  };
-}
-
-const initialPersonState = {
+const initialPersonState: Person = {
   name: "",
   phone: "",
   address: {
@@ -42,13 +13,9 @@ const initialPersonState = {
 };
 
 export const CreatePersonForm = () => {
-  const [newPerson, setNewPerson] =
-    useState<PersonProperties>(initialPersonState);
+  const [newPerson, setNewPerson] = useState(initialPersonState);
 
-  // is an array because we say when want to call the useMutation()
-  const [createPerson] = useMutation(CREATE_PERSON, {
-    refetchQueries: [{ query: ALL_PERSONS }],
-  });
+  const { createPerson } = useNewPerson();
 
   const {
     name,
