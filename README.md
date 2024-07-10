@@ -2,6 +2,10 @@
 
 Playing with Vite, graphQl and apollo client
 
+### Learnings
+
+- Screaming architecture
+
 Task to do:
 
 - [] Add tailwindCSS
