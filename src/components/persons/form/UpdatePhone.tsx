@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { ErrorAlert } from "../../Alert/ErrorAlert";
 import { useUpdatePhone } from "../../../hooks/useUpdatePhone";
@@ -11,7 +11,15 @@ const initialPersonState = {
 export const UpdatePhoneForm = () => {
   const [personData, setPersonData] = useState(initialPersonState);
 
-  const { updatePhone, errorMessage } = useUpdatePhone();
+  const { updatePhone, errorMessage, result, setErrorMessage } =
+    useUpdatePhone();
+
+  useEffect(() => {
+    if (result.data && result.data.editNumber === null) {
+      console.log("Person Not Found");
+      setErrorMessage("Person Not Found");
+    }
+  }, [result.data, setErrorMessage]);
 
   const { name, phone } = personData;
 

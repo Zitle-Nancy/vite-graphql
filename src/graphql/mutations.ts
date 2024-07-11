@@ -23,6 +23,7 @@ export const UPDATE_PHONE = gql`
   mutation ($name: String!, $phone: String!) {
     editNumber(name: $name, phone: $phone) {
       name
+      id
       phone
     }
   }
