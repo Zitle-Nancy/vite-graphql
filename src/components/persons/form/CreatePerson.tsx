@@ -2,6 +2,8 @@ import { FormEvent, useState } from "react";
 
 import { useNewPerson } from "../../../hooks/useNewPerson";
 import { Person } from "../Persons";
+import { ErrorAlert } from "../../Alert/ErrorAlert";
+import { UpdatePhoneForm } from "./UpdatePhone";
 
 const initialPersonState: Person = {
   name: "",
@@ -15,7 +17,7 @@ const initialPersonState: Person = {
 export const CreatePersonForm = () => {
   const [newPerson, setNewPerson] = useState(initialPersonState);
 
-  const { createPerson } = useNewPerson();
+  const { createPerson, errorMessage } = useNewPerson();
 
   const {
     name,
@@ -42,6 +44,7 @@ export const CreatePersonForm = () => {
 
   return (
     <div>
+      {errorMessage ? <ErrorAlert errorMessage={errorMessage} /> : null}
       <h2>Create a new Person</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">
@@ -104,6 +107,7 @@ export const CreatePersonForm = () => {
         </label>
         <button>Add new person</button>
       </form>
+      <UpdatePhoneForm />
     </div>
   );
 };

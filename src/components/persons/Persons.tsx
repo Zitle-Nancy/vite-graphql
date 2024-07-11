@@ -33,14 +33,15 @@ export const Persons = ({ data }: PersonProps) => {
     <>
       <h1>Persons</h1>
       <ul>
-        {data.allPersons.map(({ name }, index: number) => {
+        {data.allPersons.map(({ name, phone }, index: number) => {
           return (
             <li
               style={{ margin: "10px 0" }}
               key={index}
               onClick={() => searchPerson(name)}
             >
-              {name}
+              <p>Name: {name}</p>
+              <p>Phone Number: {phone}</p>
             </li>
           );
         })}
