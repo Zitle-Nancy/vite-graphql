@@ -14,3 +14,4 @@ Task to do:
 - [] Refactor the name of CreatePerson file
 - [] Refactor types and interfaces
 - [] Fix the required and not required values in the Person interface
+- [] Fix the required values, because it accepts empty values
