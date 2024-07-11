@@ -12,8 +12,12 @@ export const PersonDetail = ({
 }: PersonDetailProps) => {
   return (
     <div>
-      <h2>{name}</h2>
-      <p>{phone}</p>
+      <h2>
+        <strong>Name: </strong> {name}
+      </h2>
+      <p>
+        <strong>Phone: </strong> {phone}
+      </p>
       <p>
         <strong>Ciudad: </strong>
         {address?.city}{" "}
