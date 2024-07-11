@@ -1,27 +1,13 @@
-import { gql, useQuery } from "@apollo/client";
 import "./App.css";
 import { Persons } from "./components";
+import { usePerson } from "./hooks/usePerson";
 
-const ALL_PERSONS = gql`
-  query {
-    allPersons {
-      name
-      phone
-      address {
-        city
-        street
-      }
-    }
-  }
-`;
-
-function App() {
-  /* useQuery se ejecuta cuando se hace el render*/
-  const { data, loading, error } = useQuery(ALL_PERSONS);
+const App = () => {
+  const { data, loading, error } = usePerson();
 
   if (loading) return <p>loading...</p>;
   if (error) return <p style={{ color: "red" }}>Error</p>;
   return <Persons data={data} />;
-}
+};
 
 export default App;

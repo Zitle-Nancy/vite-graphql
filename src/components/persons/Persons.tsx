@@ -1,17 +1,21 @@
-import { useSearchPerson } from "../../queries/searchPerson";
+import { useSearchPerson } from "../../hooks/useSearchPerson";
+import { CreatePersonForm } from "./form/CreatePerson";
 import { PersonDetail } from "./PersonDetail";
 
-interface AllPersons {
-  name: string;
-  phone: string;
-  address?: {
-    city?: string;
-    street?: string;
-  };
+interface Address {
+  city: string;
+  street: string;
 }
+
+export interface Person {
+  name: string;
+  phone?: string;
+  address: Address;
+}
+
 interface PersonProps {
   data: {
-    allPersons: AllPersons[];
+    allPersons: Person[];
   };
 }
 
@@ -41,6 +45,7 @@ export const Persons = ({ data }: PersonProps) => {
           );
         })}
       </ul>
+      <CreatePersonForm />
     </>
   );
 };

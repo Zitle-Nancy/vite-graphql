@@ -1,17 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { Person } from "../../queries/searchPerson";
-
-interface Address {
-  city?: string;
-  street?: string;
-}
+import { Person } from "./Persons";
 
 interface PersonDetailProps {
-  person: {
-    name: string;
-    phone: string;
-    address?: Address;
-  };
+  person: Person;
   onClose: Dispatch<SetStateAction<Person | null>>;
 }
 
